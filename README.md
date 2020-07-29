@@ -17,4 +17,4 @@
 
 4. **Topic_Modeling:** I do topic modeling on the summaries. I use CorEx to get topics, SpaCy for preprocessing the text.
 
-5. **App:**: I build a function that takes as input a book id, a number k, and a percentage n, and outputs k similar books where content is weighed by n% and ratings by 100-n%.
+5. **App:** I build a function that takes as input a book id, a number k, and a percentage n, and outputs k similar books where content is weighed by n% and ratings by 100-n%.
