@@ -1,0 +1,597 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The dataset can be downloaded [here](https://github.com/zygmuntz/goodbooks-10k). "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pickle\n",
+    "with open('book_summaries.pkl', 'rb') as picklefile:\n",
+    "    book_summaries = pickle.load(picklefile)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "KeyError",
+     "evalue": "\"None of [Index(['book_id', 'main_author', 'summaries'], dtype='object')] are in the [columns]\"",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mKeyError\u001b[0m                                  Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-17-95a934ccaf74>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mbook_summaries\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mbook_summaries\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mbook_summaries\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0msummary\u001b[0m \u001b[0;34m!=\u001b[0m \u001b[0;34m\"\"\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'book_id'\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m'main_author'\u001b[0m\u001b[0;34m,\u001b[0m\u001b[0;34m'summaries'\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0mbook_summaries\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mhead\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m/opt/anaconda3/lib/python3.7/site-packages/pandas/core/frame.py\u001b[0m in \u001b[0;36m__getitem__\u001b[0;34m(self, key)\u001b[0m\n\u001b[1;32m   2984\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mis_iterator\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mkey\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2985\u001b[0m                 \u001b[0mkey\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mlist\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mkey\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 2986\u001b[0;31m             \u001b[0mindexer\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mloc\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_convert_to_indexer\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mkey\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mraise_missing\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0;32mTrue\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   2987\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   2988\u001b[0m         \u001b[0;31m# take() does not accept boolean indexers\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m/opt/anaconda3/lib/python3.7/site-packages/pandas/core/indexing.py\u001b[0m in \u001b[0;36m_convert_to_indexer\u001b[0;34m(self, obj, axis, is_setter, raise_missing)\u001b[0m\n\u001b[1;32m   1283\u001b[0m                 \u001b[0;31m# When setting, missing keys are not allowed, even with .loc:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1284\u001b[0m                 \u001b[0mkwargs\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0;34m{\u001b[0m\u001b[0;34m\"raise_missing\"\u001b[0m\u001b[0;34m:\u001b[0m \u001b[0;32mTrue\u001b[0m \u001b[0;32mif\u001b[0m \u001b[0mis_setter\u001b[0m \u001b[0;32melse\u001b[0m \u001b[0mraise_missing\u001b[0m\u001b[0;34m}\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 1285\u001b[0;31m                 \u001b[0;32mreturn\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_get_listlike_indexer\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mobj\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0;34m**\u001b[0m\u001b[0mkwargs\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;36m1\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1286\u001b[0m         \u001b[0;32melse\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1287\u001b[0m             \u001b[0;32mtry\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m/opt/anaconda3/lib/python3.7/site-packages/pandas/core/indexing.py\u001b[0m in \u001b[0;36m_get_listlike_indexer\u001b[0;34m(self, key, axis, raise_missing)\u001b[0m\n\u001b[1;32m   1090\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   1091\u001b[0m         self._validate_read_indexer(\n\u001b[0;32m-> 1092\u001b[0;31m             \u001b[0mkeyarr\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mindexer\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mo\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_get_axis_number\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0maxis\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mraise_missing\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mraise_missing\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1093\u001b[0m         )\n\u001b[1;32m   1094\u001b[0m         \u001b[0;32mreturn\u001b[0m \u001b[0mkeyarr\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mindexer\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;32m/opt/anaconda3/lib/python3.7/site-packages/pandas/core/indexing.py\u001b[0m in \u001b[0;36m_validate_read_indexer\u001b[0;34m(self, key, indexer, axis, raise_missing)\u001b[0m\n\u001b[1;32m   1175\u001b[0m                 raise KeyError(\n\u001b[1;32m   1176\u001b[0m                     \"None of [{key}] are in the [{axis}]\".format(\n\u001b[0;32m-> 1177\u001b[0;31m                         \u001b[0mkey\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mkey\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0maxis\u001b[0m\u001b[0;34m=\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mobj\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_get_axis_name\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0maxis\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   1178\u001b[0m                     )\n\u001b[1;32m   1179\u001b[0m                 )\n",
+      "\u001b[0;31mKeyError\u001b[0m: \"None of [Index(['book_id', 'main_author', 'summaries'], dtype='object')] are in the [columns]\""
+     ]
+    }
+   ],
+   "source": [
+    "book_summaries = book_summaries[book_summaries.summary != \"\"][['book_id', 'main_author','summaries']]\n",
+    "book_summaries.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import spacy\n",
+    "import en_core_web_sm\n",
+    "nlp = en_core_web_sm.load()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import nltk\n",
+    "from nltk.stem import WordNetLemmatizer\n",
+    "from nltk.tokenize import word_tokenize\n",
+    "nltk.download('punkt')\n",
+    "nltk.download('wordnet')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def spacy_filter(text):\n",
+    "    doc = nlp(text)\n",
+    "    new_text = \"\"\n",
+    "    parts_of_speech = ['VERB', 'NOUN', 'ADJ', 'PROPN']\n",
+    "    for token in doc:\n",
+    "        if str(token.pos_) in parts_of_speech:\n",
+    "            new_text += token.text + \" \"\n",
+    "    return new_text\n",
+    "\n",
+    "def lemmatizer(entry):\n",
+    "    entry = entry.lower()\n",
+    "    lemmatizer = WordNetLemmatizer() \n",
+    "    entry = word_tokenize(entry)\n",
+    "    new_entry = []\n",
+    "    for word in entry:\n",
+    "        new_entry.append(lemmatizer.lemmatize(word))\n",
+    "        \n",
+    "    return \" \".join(new_entry)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "ename": "AttributeError",
+     "evalue": "'DataFrame' object has no attribute 'summaries'",
+     "output_type": "error",
+     "traceback": [
+      "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+      "\u001b[0;31mAttributeError\u001b[0m                            Traceback (most recent call last)",
+      "\u001b[0;32m<ipython-input-9-db0fcd78db04>\u001b[0m in \u001b[0;36m<module>\u001b[0;34m\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0mbook_summaries\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0;34m'clean_summaries'\u001b[0m\u001b[0;34m]\u001b[0m \u001b[0;34m=\u001b[0m \u001b[0mbook_summaries\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0msummaries\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mapply\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mspacy_filter\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mapply\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mlemmatizer\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m",
+      "\u001b[0;32m/opt/anaconda3/lib/python3.7/site-packages/pandas/core/generic.py\u001b[0m in \u001b[0;36m__getattr__\u001b[0;34m(self, name)\u001b[0m\n\u001b[1;32m   5177\u001b[0m             \u001b[0;32mif\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_info_axis\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m_can_hold_identifiers_and_holds_name\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   5178\u001b[0m                 \u001b[0;32mreturn\u001b[0m \u001b[0mself\u001b[0m\u001b[0;34m[\u001b[0m\u001b[0mname\u001b[0m\u001b[0;34m]\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0;32m-> 5179\u001b[0;31m             \u001b[0;32mreturn\u001b[0m \u001b[0mobject\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0m__getattribute__\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mname\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m   5180\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m   5181\u001b[0m     \u001b[0;32mdef\u001b[0m \u001b[0m__setattr__\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0mself\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mname\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mvalue\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m:\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+      "\u001b[0;31mAttributeError\u001b[0m: 'DataFrame' object has no attribute 'summaries'"
+     ]
+    }
+   ],
+   "source": [
+    "book_summaries['clean_summaries'] = book_summaries.summaries.apply(spacy_filter).apply(lemmatizer)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>title</th>\n",
+       "      <th>summary</th>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>book_id</th>\n",
+       "      <th></th>\n",
+       "      <th></th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <td>2767052</td>\n",
+       "      <td>The Hunger Games (The Hunger Games, #1)</td>\n",
+       "      <td></td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <td>3</td>\n",
+       "      <td>Harry Potter and the Sorcerer's Stone (Harry P...</td>\n",
+       "      <td></td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <td>41865</td>\n",
+       "      <td>Twilight (Twilight, #1)</td>\n",
+       "      <td></td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <td>2657</td>\n",
+       "      <td>To Kill a Mockingbird</td>\n",
+       "      <td></td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <td>4671</td>\n",
+       "      <td>The Great Gatsby</td>\n",
+       "      <td></td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "                                                     title summary\n",
+       "book_id                                                           \n",
+       "2767052            The Hunger Games (The Hunger Games, #1)        \n",
+       "3        Harry Potter and the Sorcerer's Stone (Harry P...        \n",
+       "41865                              Twilight (Twilight, #1)        \n",
+       "2657                                 To Kill a Mockingbird        \n",
+       "4671                                      The Great Gatsby        "
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "book_summaries.head()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "with open('book_summaries.pkl', 'wb') as picklefile:\n",
+    "    pickle.dump(book_summaries, picklefile)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Now we are ready to start our topic modeling! We first put our data into a count vectorizer and then use CorEx to get our topics."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "I like to make my own stop words. After playing around with topics, I found a few words that were coming up in the topics that were not helpful. You can make your own list of stop words, depending on what the summaries you scraped look like."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 38,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from nltk.corpus import stopwords"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 40,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "custom_stop_words = ({'isbn', 'tale', 'story', 'novel', 'edition', 'hardcover', 'text', 'cover', 'bestselling',\n",
+    "                      'bestseller', 'york', 'angeles', 'translation', 'introduction', 'reader', 'thing', \n",
+    "                      'que', 'un', 'al', 'se', 'de', 'la','make', 'want', 'writer'})"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 44,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "sw = set(stopwords.words('english')).union(custom_stop_words)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 45,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.feature_extraction.text import CountVectorizer\n",
+    "from corextopic import corextopic as ct"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 46,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "vectorizer = CountVectorizer(max_features=20000,\n",
+    "                             stop_words=sw, token_pattern=\"\\\\b[a-z][a-z]+\\\\b\",\n",
+    "                             binary=True)\n",
+    "\n",
+    "doc_word = vectorizer.fit_transform(book_summaries.lem_spacy_summaries)\n",
+    "words = list(np.asarray(vectorizer.get_feature_names()))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "With CorEx,you can add anchors to improve your topics. I didn't find I needed any, but feel free to try it out! "
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Here we are making 10 topics, but this parameter can be changed by setting n_hidden inside the CorEx function to a different value."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 134,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<corextopic.corextopic.Corex at 0x7fe69ce928d0>"
+      ]
+     },
+     "execution_count": 134,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "topic_model = ct.Corex(n_hidden=20, words=words, seed=1)\n",
+    "topic_model.fit(doc_word, words=words, docs=book_summaries.clean_summaries)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 135,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "Topic 1: book, classic, work, american, published, character, written, original, modern, literature\n",
+      "Topic 2: recipe, para, et, una, su, da, como, cookbook, por, en\n",
+      "Topic 3: murder, killer, detective, case, crime, police, investigation, victim, dead, murdered\n",
+      "Topic 4: magic, power, ancient, king, warrior, kingdom, must, queen, throne, realm\n",
+      "Topic 5: secret, past, find, dark, truth, woman, heart, could, death, old\n",
+      "Topic 6: war, enemy, battle, army, force, deadly, evil, mission, soldier, ally\n",
+      "Topic 7: insight, experience, remarkable, author, memoir, writing, moving, show, understanding, self\n",
+      "Topic 8: state, research, united, science, political, america, scientific, president, government, scientist\n",
+      "Topic 9: job, big, get, good, high, money, next, ex, room, office\n",
+      "Topic 10: history, world, century, epic, historical, nation, extraordinary, struggle, greatest, human\n",
+      "Topic 11: family, mother, father, daughter, child, young, home, husband, sister, son\n",
+      "Topic 12: love, new, year, best, marriage, time, hilarious, college, parent, food\n",
+      "Topic 13: life, way, people, would, change, see, relationship, live, day, take\n",
+      "Topic 14: know, ca, school, girl, going, go, guy, keep, bad, getting\n",
+      "Topic 15: passion, wife, england, rich, ambition, london, ambitious, affair, paris, fortune\n",
+      "Topic 16: thriller, terrorist, city, former, attack, cia, chief, action, washington, elite\n",
+      "Topic 17: friend, vampire, might, one, sexy, feel, choice, demon, help, mean\n",
+      "Topic 18: star, team, sport, system, project, space, machine, internet, player, mile\n",
+      "Topic 19: god, christian, potter, holmes, hogwarts, christianity, believer, olympus, universe, influence\n",
+      "Topic 20: desire, beauty, dream, touch, torn, threatened, alternate, anne, exile, hunger\n"
+     ]
+    }
+   ],
+   "source": [
+    "topics = topic_model.get_topics()\n",
+    "topics_list = []\n",
+    "for n,topic in enumerate(topics):\n",
+    "    topic_words,_ = zip(*topic)\n",
+    "    topics_list.append('Topic {}: '.format(n+1) + ','.join(topic_words))\n",
+    "    print('Topic {}: '.format(n+1) + ', '.join(topic_words))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "What would you label the topics? I would label them as follows: \n",
+    "\n",
+    "1. Writing\n",
+    "2. History\n",
+    "3. Everyday Life\n",
+    "4. Crime\n",
+    "5. Thriller\n",
+    "6. Life/Family\n",
+    "7. Science Fiction\n",
+    "8. Secret/Past\n",
+    "9. Humor\n",
+    "10. Romance"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "The way you label them is not important. What matters is that the topics can classify the books in a useful way. These topics seem to be genres, which is good because we want our rec system to recommend a book of a similar genre."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Next, we will make a topics dataframe. The rows represent books (in the same order as in book_summaries), the columns represent topics, and the entries represent a quantification of the words from a particular topic appearing in a book."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 61,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import pandas as pd"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 128,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead tr th {\n",
+       "        text-align: left;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr>\n",
+       "      <th></th>\n",
+       "      <th>topic 1</th>\n",
+       "      <th>topic 2</th>\n",
+       "      <th>topic 3</th>\n",
+       "      <th>topic 4</th>\n",
+       "      <th>topic 5</th>\n",
+       "      <th>topic 6</th>\n",
+       "      <th>topic 7</th>\n",
+       "      <th>topic 8</th>\n",
+       "      <th>topic 9</th>\n",
+       "      <th>topic 10</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <td>0</td>\n",
+       "      <td>0.000048</td>\n",
+       "      <td>0.010749</td>\n",
+       "      <td>0.999998</td>\n",
+       "      <td>0.000348</td>\n",
+       "      <td>0.999999</td>\n",
+       "      <td>0.000001</td>\n",
+       "      <td>0.001318</td>\n",
+       "      <td>0.867652</td>\n",
+       "      <td>0.000106</td>\n",
+       "      <td>0.660895</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <td>1</td>\n",
+       "      <td>0.022753</td>\n",
+       "      <td>0.000001</td>\n",
+       "      <td>0.999983</td>\n",
+       "      <td>0.000120</td>\n",
+       "      <td>0.999999</td>\n",
+       "      <td>0.997581</td>\n",
+       "      <td>0.999415</td>\n",
+       "      <td>0.999999</td>\n",
+       "      <td>0.999999</td>\n",
+       "      <td>0.066583</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <td>2</td>\n",
+       "      <td>0.000008</td>\n",
+       "      <td>0.000004</td>\n",
+       "      <td>0.000026</td>\n",
+       "      <td>0.000020</td>\n",
+       "      <td>0.142661</td>\n",
+       "      <td>0.000024</td>\n",
+       "      <td>0.000053</td>\n",
+       "      <td>0.000402</td>\n",
+       "      <td>0.000570</td>\n",
+       "      <td>0.005461</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <td>3</td>\n",
+       "      <td>0.999999</td>\n",
+       "      <td>0.999999</td>\n",
+       "      <td>0.000014</td>\n",
+       "      <td>0.000069</td>\n",
+       "      <td>0.001820</td>\n",
+       "      <td>0.999651</td>\n",
+       "      <td>0.000001</td>\n",
+       "      <td>0.005274</td>\n",
+       "      <td>0.000107</td>\n",
+       "      <td>0.273786</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <td>4</td>\n",
+       "      <td>0.000024</td>\n",
+       "      <td>0.999889</td>\n",
+       "      <td>0.000250</td>\n",
+       "      <td>0.000187</td>\n",
+       "      <td>0.000167</td>\n",
+       "      <td>0.999999</td>\n",
+       "      <td>0.000131</td>\n",
+       "      <td>0.000810</td>\n",
+       "      <td>0.000106</td>\n",
+       "      <td>0.115376</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "    topic 1   topic 2   topic 3   topic 4   topic 5   topic 6   topic 7  \\\n",
+       "0  0.000048  0.010749  0.999998  0.000348  0.999999  0.000001  0.001318   \n",
+       "1  0.022753  0.000001  0.999983  0.000120  0.999999  0.997581  0.999415   \n",
+       "2  0.000008  0.000004  0.000026  0.000020  0.142661  0.000024  0.000053   \n",
+       "3  0.999999  0.999999  0.000014  0.000069  0.001820  0.999651  0.000001   \n",
+       "4  0.000024  0.999889  0.000250  0.000187  0.000167  0.999999  0.000131   \n",
+       "\n",
+       "    topic 8   topic 9  topic 10  \n",
+       "0  0.867652  0.000106  0.660895  \n",
+       "1  0.999999  0.999999  0.066583  \n",
+       "2  0.000402  0.000570  0.005461  \n",
+       "3  0.005274  0.000107  0.273786  \n",
+       "4  0.000810  0.000106  0.115376  "
+      ]
+     },
+     "execution_count": 128,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def create_topic_list(n):\n",
+    "    return [f'topic {i}' for i in range(1, n+1)]\n",
+    "book_topics = pd.DataFrame(topic_model.predict_proba(doc_word)[0], columns=[create_topic_list(10)])\n",
+    "book_topics.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Let's get rid of the multiindex in the book_topics dataframe."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 131,
+   "metadata": {
+    "scrolled": true
+   },
+   "outputs": [],
+   "source": [
+    "new_df = pd.DataFrame(index=book_topics.index)\n",
+    "for i in range(10):\n",
+    "    new_df['topic_%d' % (i+1)] = book_topics[book_topics.columns[i]]\n",
+    "book_topics = new_df"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 133,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "with open('book_topics.pkl', 'wb') as picklefile:\n",
+    "    pickle.dump(book_topics, picklefile)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.7.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
