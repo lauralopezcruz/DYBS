@@ -11,7 +11,7 @@
 
 1. **Labelling:** I use book tags from the Kaggle dataset to label some authors, then I scrape a list of POC authors from Goodreads.
 
-2. **Ratings_similarity:** I create a ratings-based book similarity matrix using ratings data from Goodreads. This code is not mine.
+2. **Ratings_similarity:** I create a ratings-based book similarity matrix using ratings data from Goodreads. This code is not mine. The ratings and books data can be found [here](https://github.com/zygmuntz/goodbooks-10k).
 
 3. **Scraping_summaries:**  Here I have short script to scrape all (but 45) book summaries from Goodreads.com. The last 45 books did not have summaries.
 
